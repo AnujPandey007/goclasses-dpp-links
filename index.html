@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GOClasses DPP Day Links (Unofficial)</title>
+  <title>GOClasses DPP Links (Unofficial)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --accent: #3b82f6;        
-      --accent-light: #dbeafe;  
-      --bg: #f8fafc;           
-      --card-bg: #ffffff;      
-      --text: #0f172a;     
+      --accent: #3b82f6;
+      --accent-light: #dbeafe;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
     }
 
     html, body {
@@ -25,12 +25,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 1rem;
     }
 
-    h1 {
+    h1, h2 {
       font-weight: 600;
       margin: 1.2rem 0 0.4rem;
       text-align: center;
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.25rem;
     }
 
     .disclaimer {
@@ -48,18 +53,18 @@
       padding: 1.25rem 2.5rem;
     }
 
-    ul#links {
+    ul.link-grid {
       list-style: none;
       padding: 0;
       margin: 0;
-      justify-items: center;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 0.75rem;
+      justify-items: center;
     }
 
-    ul#links a {
-      display: block;
+    ul.link-grid a {
+      display: table-cell;
       width: 100%;
       padding: 0.55rem 0.8rem;
       text-align: center;
@@ -71,15 +76,15 @@
       font-weight: 500;
     }
 
-    ul#links a:hover,
-    ul#links a:focus {
+    ul.link-grid a:hover,
+    ul.link-grid a:focus {
       outline: none;
       background: var(--accent);
       color: #fff;
     }
 
     @media (max-width: 420px) {
-      ul#links {
+      ul.link-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -87,24 +92,41 @@
 </head>
 <body>
   <div class="card">
-    <h1>GOClasses DPP Day Links</h1>
+    <h1>GOClasses DPP Links</h1>
     <p class="disclaimer"><em>Unofficial – generated for quick access only.</em></p>
-    <ul id="links"></ul>
+
+    <!-- Subject-wise DPPs -->
+    <h2>🔹 Subject-wise DPPs</h2>
+    <ul id="subjects" class="link-grid">
+      <li><a href="https://gateoverflow.in/tag/goclasses-digital-logic-practice-questions" target="_blank">Digital Logic</a></li>
+      <li><a href="https://gateoverflow.in/tag/goclasses-graph-theory-practice-questions" target="_blank">Graph Theory</a></li>
+      <li><a href="https://gateoverflow.in/tag/goclasses-linear-algebra-practice-questions" target="_blank">Linear Algebra</a></li>
+      <li><a href="https://gateoverflow.in/tag/goclasses-set-theory-practice-questions" target="_blank">Set Theory</a></li>
+      <!-- <li><a href="https://gateoverflow.in/tag/goclasses-example-practice-questions" target="_blank">Exmaple</a></li> -->
+    </ul>
+
+    <!-- Day-wise DPPs -->
+    <h2>🔹 Day-wise DPPs</h2>
+    <ul id="links" class="link-grid"></ul>
   </div>
 
   <script>
+    // Start date of DPP series (May 30, 2025 UTC)
     const startDate = new Date(Date.UTC(2025, 4, 30));
 
+    // Compute today's date in IST
     const now = new Date();
     const istOffsetMinutes = 5.5 * 60;
     const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
     const today = new Date(utcTime + istOffsetMinutes * 60000);
     today.setUTCHours(0, 0, 0, 0);
 
+    // Compute how many days have passed
     const msPerDay = 24 * 60 * 60 * 1000;
     const dayCount = Math.floor((today - startDate) / msPerDay) + 1;
     const totalDays = Math.max(0, dayCount);
 
+    // Populate day-wise links
     const ul = document.getElementById('links');
     for (let day = 1; day <= totalDays; day++) {
       const li  = document.createElement('li');
