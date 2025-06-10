@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GOClasses DPP Day Links</title>
+</head>
+<body>
+  <h1>GOClasses DPP Day Links</h1>
+  <ul id="links"></ul>
+
+  <script>
+    // 1. Define your start date (first DPP = May 30, 2025)
+    const startDate = new Date(Date.UTC(2025, 4, 30));  
+    // Note: months are zero-based (4 = May). We use UTC to avoid timezone shifts.
+
+    // 2. Get "today" in UTC, but aligned to IST (UTC+5:30)
+    const now = new Date();
+    const istOffset = 5.5 * 60; // minutes
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const today = new Date(utc + istOffset * 60000);
+
+    // Zero-out time so diff is by days only:
+    today.setUTCHours(0,0,0,0);
+
+    // 3. Compute the day count
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const dayCount = Math.floor((today - startDate) / msPerDay) + 1;
+
+    // 4. Build the list up to dayCount
+    const ul = document.getElementById('links');
+    for (let day = 1; day <= dayCount; day++) {
+      const li  = document.createElement('li');
+      const a   = document.createElement('a');
+      const url = `https://gateoverflow.in/tag-search-page?q=goclasses-cs-dpp-day-${day}`;
+
+      a.href        = url;
+      a.textContent = `Day ${day}`;
+      a.target      = '_blank';
+
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+  </script>
+</body>
+</html>
