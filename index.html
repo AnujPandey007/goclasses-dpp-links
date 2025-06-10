@@ -5,16 +5,15 @@
   <title>GOClasses DPP Day Links (Unofficial)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--— OPTIONAL: pull in a modern sans-serif font; comment out if you prefer system fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --accent: #3b82f6;         /* Tailwind-ish blue-500 */
-      --accent-light: #dbeafe;   /* blue-100 */
-      --bg: #f8fafc;             /* slate-50 */
-      --card-bg: #ffffff;        /* plain white */
-      --text: #0f172a;           /* slate-900 */
+      --accent: #3b82f6;        
+      --accent-light: #dbeafe;  
+      --bg: #f8fafc;           
+      --card-bg: #ffffff;      
+      --text: #0f172a;     
     }
 
     html, body {
@@ -41,19 +40,19 @@
       text-align: center;
     }
 
-    /* Card wrapper to keep things neat on large screens */
     .card {
       width: min(600px, 90vw);
       background: var(--card-bg);
       border-radius: 0.75rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      padding: 1.25rem 1.5rem;
+      padding: 1.25rem 2.5rem;
     }
 
     ul#links {
       list-style: none;
       padding: 0;
       margin: 0;
+      justify-items: center;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 0.75rem;
@@ -79,7 +78,6 @@
       color: #fff;
     }
 
-    /* Small screens: make buttons full width */
     @media (max-width: 420px) {
       ul#links {
         grid-template-columns: 1fr;
@@ -95,24 +93,18 @@
   </div>
 
   <script>
-    // 1. Define your start date (first DPP = May 30 2025)
-    // Months are zero-based (4 = May); stick to UTC to avoid DST surprises.
     const startDate = new Date(Date.UTC(2025, 4, 30));
 
-    // 2. Get “today” in IST (UTC+5:30) but keep the clock at 00:00
     const now = new Date();
     const istOffsetMinutes = 5.5 * 60;
     const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
     const today = new Date(utcTime + istOffsetMinutes * 60000);
     today.setUTCHours(0, 0, 0, 0);
 
-    // 3. Compute how many days have elapsed
     const msPerDay = 24 * 60 * 60 * 1000;
     const dayCount = Math.floor((today - startDate) / msPerDay) + 1;
-    // If today is before the start date, guard against negative numbers
     const totalDays = Math.max(0, dayCount);
 
-    // 4. Build the list
     const ul = document.getElementById('links');
     for (let day = 1; day <= totalDays; day++) {
       const li  = document.createElement('li');
