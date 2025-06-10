@@ -2,41 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GOClasses DPP Day Links</title>
+  <title>GOClasses DPP Day Links (Unofficial)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--— OPTIONAL: pull in a modern sans-serif font; comment out if you prefer system fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #3b82f6;         /* Tailwind-ish blue-500 */
+      --accent-light: #dbeafe;   /* blue-100 */
+      --bg: #f8fafc;             /* slate-50 */
+      --card-bg: #ffffff;        /* plain white */
+      --text: #0f172a;           /* slate-900 */
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-weight: 600;
+      margin: 1.2rem 0 0.4rem;
+      text-align: center;
+    }
+
+    .disclaimer {
+      font-size: 0.875rem;
+      opacity: 0.75;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    /* Card wrapper to keep things neat on large screens */
+    .card {
+      width: min(600px, 90vw);
+      background: var(--card-bg);
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      padding: 1.25rem 1.5rem;
+    }
+
+    ul#links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.75rem;
+    }
+
+    ul#links a {
+      display: block;
+      width: 100%;
+      padding: 0.55rem 0.8rem;
+      text-align: center;
+      text-decoration: none;
+      border: 2px solid var(--accent);
+      border-radius: 0.5rem;
+      background: var(--card-bg);
+      transition: background 0.2s, color 0.2s;
+      font-weight: 500;
+    }
+
+    ul#links a:hover,
+    ul#links a:focus {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Small screens: make buttons full width */
+    @media (max-width: 420px) {
+      ul#links {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>GOClasses DPP Day Links</h1>
-  <ul id="links"></ul>
+  <div class="card">
+    <h1>GOClasses DPP Day Links</h1>
+    <p class="disclaimer"><em>Unofficial – generated for quick access only.</em></p>
+    <ul id="links"></ul>
+  </div>
 
   <script>
-    // 1. Define your start date (first DPP = May 30, 2025)
-    const startDate = new Date(Date.UTC(2025, 4, 30));  
-    // Note: months are zero-based (4 = May). We use UTC to avoid timezone shifts.
+    // 1. Define your start date (first DPP = May 30 2025)
+    // Months are zero-based (4 = May); stick to UTC to avoid DST surprises.
+    const startDate = new Date(Date.UTC(2025, 4, 30));
 
-    // 2. Get "today" in UTC, but aligned to IST (UTC+5:30)
+    // 2. Get “today” in IST (UTC+5:30) but keep the clock at 00:00
     const now = new Date();
-    const istOffset = 5.5 * 60; // minutes
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const today = new Date(utc + istOffset * 60000);
+    const istOffsetMinutes = 5.5 * 60;
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const today = new Date(utcTime + istOffsetMinutes * 60000);
+    today.setUTCHours(0, 0, 0, 0);
 
-    // Zero-out time so diff is by days only:
-    today.setUTCHours(0,0,0,0);
-
-    // 3. Compute the day count
+    // 3. Compute how many days have elapsed
     const msPerDay = 24 * 60 * 60 * 1000;
     const dayCount = Math.floor((today - startDate) / msPerDay) + 1;
+    // If today is before the start date, guard against negative numbers
+    const totalDays = Math.max(0, dayCount);
 
-    // 4. Build the list up to dayCount
+    // 4. Build the list
     const ul = document.getElementById('links');
-    for (let day = 1; day <= dayCount; day++) {
+    for (let day = 1; day <= totalDays; day++) {
       const li  = document.createElement('li');
       const a   = document.createElement('a');
-      const url = `https://gateoverflow.in/tag-search-page?q=goclasses-cs-dpp-day-${day}`;
-
-      a.href        = url;
+      a.href        = `https://gateoverflow.in/tag-search-page?q=goclasses-cs-dpp-day-${day}`;
       a.textContent = `Day ${day}`;
       a.target      = '_blank';
-
       li.appendChild(a);
       ul.appendChild(li);
     }
